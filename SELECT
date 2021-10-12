@@ -1,0 +1,51 @@
+--retornar todas as tabelas
+select * from nome_tabela --retorna todo conteúdo
+
+--retorna tabelas especificas, primeira foi renomeada
+select nome_coluna1 as col1 or “Col 1”, nome_coluna2 -- usar espaço em branco utiliza aspas
+
+--retorna dados com condição especifica
+select * from nome_tabela where condição --ex altura > 1.70 
+
+--retorna dados com 2 condições verdadeiras
+select * from nome_tabela where condição_1 and condição2 
+
+--retorna dados com 1 das condições verdadeiras
+select * from nome_tabela where condição1 or condição2 
+
+--retorna dados com nome específico
+select * from nome_tabela where nome_coluna ='Sergio'  
+
+--retorna todos os registros que iniciarem com 'Sergio' 
+select * from nome_tabela where condição1 like 'Sergio%'
+
+--retorna todos os registros que terminarem com 'Sergio' 
+select * from nome_tabela where condição1 like '%Sergio' 
+
+--retorna todos os registros que contenham 'Sergio' 
+select * from nome_tabela where condição1 like '%Sergio%'
+
+--retorna todos os registros que contenham contenham 'S...o' ex: Sergio, Serio, Sérvio etc. 
+select * from nome_tabela where condição1 like 'S_o%'
+
+--retorna registro entre dois valores numéricos
+select * from idade_tabela where idade between 29 and 35
+
+--retorna registros específicos
+select * from nome_tabela where nome_coluna in ('Rosa', 'Guga')
+
+--retorna valores nulos
+select * from nome_tabela where nome_coluna is.null
+
+--retorna valores não nulos
+select * from nome_tabela where nome_coluna is.not null
+
+--retorna registros ordenados por condição *idade
+select * from nome_tabela order by idade
+
+--retorna registros ordenados por condição *idade / descendente
+select * from nome_tabela order by idade desc
+
+
+UNION - remove registros duplicados
+UNION ALL - trás todos registros
