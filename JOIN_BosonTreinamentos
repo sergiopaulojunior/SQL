@@ -1,0 +1,39 @@
+INNER JOIN --only returns connected, matching rows / uma correspondencia em ambas tabelas, pode usar mais de 2 tabelas
+
+select * from tabela1 
+inner join tabela2 
+on tabela1.tabela2_fk = tabela2.tabela2_pk;
+
+--ambiguidade - para especificar colunas especificar de qual tabela elas vieram
+select martian.martin_id, base.base_id,base.base_name  --nometabela.nomecoluna
+from martian
+inner join base
+on martin.base_id = base.base_id
+
+--inner join com alias
+select m.martin_id, b.base_id, 
+b.base_name as Nome_Base --renomeia tabela para exibição
+from martian as m
+inner join base as b
+on m.base_id = b.base_id
+
+select coluna1, coluna2, coluna3 from tabela1 inner join tabela2 on tabela1.tabela2_fk = tabela2.tabela2_pk;
+
+
+OUTER JOIN - Retorna linhas mesmo quando não houver pelo menos uma correspondencia em uma das tabelas
+
+LEFT JOIN --retorna todas as linhas da tabela á esquerda, mesmo se não houver nenhuma correspondencia na tabela à direita
+--traga todos os registros da tabela á esquerda mesmo que não haja correspondencia com a tabela da direita, ex id_autor na tabela tbl_livro era nulo em 2 registros
+select * from tbl_livro
+left join tbl_autors
+on tbl_livros.id_autor = tbl_autores.id_autor
+
+LEFT JOIN - excluindo correspondencias - retorna quando não ha correspondencias
+select * from tbl_livro
+left join tbl_autors
+on tbl_livros.id_autor = tbl_autores.id_autor
+where tbl_livro.id_autor is null
+
+RIGHT JOIN --retorna todas as linhas da tabela á direita, mesmo se não houver nenhuma correspondência na tabela à esquerda
+
+FULL JOIN --retorna linhas quando houver uma correspondência em qualquer uma das tabelas, combinação de left e right joins
