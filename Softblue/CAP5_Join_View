@@ -1,0 +1,57 @@
+-- Exercício CAP5
+-- Utilizando o banco de dados criado nos módulos anteriores, realize as seguintes uniões de tabelas:
+-- Exiba uma lista com os títulos dos cursos da Softblue e o tipo de curso ao lado;
+SELECT curso.curso, tipo.tipo
+FROM curso 
+INNER JOIN tipo 
+USING(codigo);
+-- INNER JOIN TIPO ON CURSO.TIPO = TIPO.CODIGO;
+
+-- Exiba uma lista com os títulos dos cursos da Softblue, tipo do curso, nome do instrutor responsável pelo mesmo e telefone;
+SELECT curso.curso, tipo.tipo, instrutor.instrutor, instrutor.telefone
+FROM curso
+INNER JOIN tipo ON curso.tipo = tipo.codigo
+INNER JOIN instrutor ON curso.instrutor = instrutor.codigo;
+
+-- Exiba uma lista com o código e data e hora dos pedidos e os títulos dos cursos de cada pedido;
+SELECT pedido.codigo, pedido.datahora, curso.curso
+FROM pedido
+INNER JOIN pedido_detalhe ON pedido.codigo = pedido_detalhe.pedido
+INNER JOIN curso ON pedido_detalhe.curso = curso.codigo; 
+
+-- Exiba uma lista com o código e data e hora dos pedidos, nome do aluno e os títulos dos cursos de cada pedido;
+SELECT pedido.codigo, datahora, aluno.aluno, curso.curso
+FROM pedido
+INNER JOIN pedido_detalhe ON pedido.codigo = pedido_detalhe.pedido
+INNER JOIN curso ON pedido_detalhe.curso = curso.codigo
+INNER JOIN aluno ON pedido.aluno = aluno.codigo;
+
+-- Exercício 2
+-- Utilizando o banco de dados criado nos módulos anteriores, realize as seguintes instruções:
+-- Crie uma visão que traga o título e preço somente dos cursos de programação da Softblue;
+CREATE VIEW prog 
+AS SELECT curso, valor
+FROM curso
+INNER JOIN tipo ON curso.tipo = tipo.codigo
+WHERE tipo.tipo = 'Programação';
+
+-- testando
+SELECT * FROM prog;
+
+
+-- Crie uma visão que traga os títulos dos cursos, tipo do curso e nome do instrutor;
+CREATE VIEW cur AS
+SELECT curso, tipo, instrutor
+FROM curso;
+
+-- testando
+SELECT * FROM cur;
+
+-- Crie uma visão que exiba os pedidos realizados, informando o nome do aluno, data e código do pedido;
+CREATE VIEW ped AS
+SELECT  aluno.aluno AS 'Nome' , datahora, pedido.codigo
+FROM pedido
+INNER JOIN aluno ON pedido.aluno = aluno.codigo;
+
+-- testando
+SELECT * FROM ped;
