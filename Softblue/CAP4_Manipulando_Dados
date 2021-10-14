@@ -1,0 +1,117 @@
+-- Exercicios CAP4
+-- Exercicio 1
+-- tipo
+INSERT INTO tipo (codigo, tipo)VALUES(1,'Banco de Dados');
+INSERT INTO tipo (codigo, tipo)VALUES(2,'Programação');
+INSERT INTO tipo (codigo, tipo)VALUES(3,'Modelagem de dados');
+
+-- instrutor
+INSERT INTO instrutor (codigo, instrutor, telefone)VALUES(1,'Andre Milani','1111-1111');
+INSERT INTO instrutor (codigo, instrutor, telefone)VALUES(2,'Carlos Tosin','1212-1212');
+
+-- curso
+INSERT INTO curso VALUES(1,'Java Fundamentos', 2, 2, 270);
+INSERT INTO curso VALUES(2,'Java Avançado', 2, 2, 330);
+INSERT INTO curso VALUES(3,'SQL Completo', 1, 1, 170);
+INSERT INTO curso VALUES(4,'Java Fundamentos', 2, 1, 270);
+
+-- aluno
+INSERT INTO aluno (codigo, aluno, endereco, email)VALUES(1,'José','XV de Novembro','José@softblue.com.br');
+INSERT INTO aluno (codigo, aluno, endereco, email)VALUES(2,'Wagner','Av Paulista','wagner@softblue.com.br');
+INSERT INTO aluno (codigo, aluno, endereco, email)VALUES(3,'Emilio','Rua lajes 103','emilio@softblue.com.br');
+INSERT INTO aluno (codigo, aluno, endereco, email)VALUES(4,'Cris','Rua Tauaney','cris@softblue.com.br');
+INSERT INTO aluno (codigo, aluno, endereco, email)VALUES(5,'Regina','Rua Salles','regina@softblue.com.br');
+INSERT INTO aluno (codigo, aluno, endereco, email)VALUES(6,'Fernando','Av Central','fernando@softblue.com.br');
+
+
+-- pedido
+INSERT INTO pedido VALUES (1,2,'2010/10/04,11:23:32');
+INSERT INTO pedido VALUES (2,2,'2010/04/15,14:36:21');
+INSERT INTO pedido VALUES (3,3,'2010/04/16,11:17:45');
+INSERT INTO pedido VALUES (4,4,'2010/04/17,14:27:22');
+INSERT INTO pedido VALUES (5,5,'2010/04/18,11:18:19');
+INSERT INTO pedido VALUES (6,6,'2010/04/19,13:47:35');
+INSERT INTO pedido VALUES (7,6,'2010/04/20,18:13:44');
+
+
+-- pedido_detalhe
+INSERT INTO pedido_detalhe VALUES (1, 1, 270);
+INSERT INTO pedido_detalhe VALUES (1, 2, 330);
+INSERT INTO pedido_detalhe VALUES (2, 1, 270);
+INSERT INTO pedido_detalhe VALUES (2, 2, 330);
+INSERT INTO pedido_detalhe VALUES (2, 3, 170);
+INSERT INTO pedido_detalhe VALUES (3, 4, 270);
+INSERT INTO pedido_detalhe VALUES (4, 2, 330);
+INSERT INTO pedido_detalhe VALUES (4, 4, 270);
+INSERT INTO pedido_detalhe VALUES (5, 3, 170);
+INSERT INTO pedido_detalhe VALUES (6, 3, 170);
+INSERT INTO pedido_detalhe VALUES (7, 4, 270);
+
+-- Exercicio 2
+-- Utilizando o banco de dados criado nos módulos anteriores, realize as seguintes instruções:
+-- Exibir todas as informações de todos os alunos;
+SELECT *
+FROM aluno;
+
+-- Exibir somente o título de cada curso da Softblue;
+SELECT curso AS 'Cursos' -- renomear tabela para exibição
+FROM curso;
+
+-- Exibir somente o título e valor de cada curso da Softblue cujo preço seja maior que 200;
+SELECT curso as 'Cursos', valor as 'Valor'
+FROM curso
+WHERE valor > 200;
+
+-- Exibir somente o título e valor de cada curso da Softblue cujo preço seja maior que 200 e menor que 300;
+SELECT curso as 'Cursos', valor as 'Valor'
+FROM curso
+WHERE valor BETWEEN 200 AND 300;
+
+-- Outra solução para o exercício seria esta;
+SELECT curso as 'Cursos', valor as 'Valor'
+FROM curso
+WHERE valor > 200 AND valor < 300;
+
+-- Exibir as informações da tabela PEDIDOS para os pedidos realizados entre 15/04/2010 e 18/04/2010;
+SELECT *
+FROM pedido
+WHERE datahora BETWEEN '2010/04/15' AND '2010/04/18';
+
+-- Outra solução para o exercício seria esta;
+SELECT *
+FROM pedido
+WHERE datahora > '2010/04/15' AND datahora < '2010/04/18';
+
+-- Exibir as informações da tabela PEDIDOS para os pedidos realizados na data de 15/04/2010;
+SELECT *
+FROM pedido
+WHERE date(datahora) = '2010/04/15%';
+
+-- Exercício 3
+-- Utilizando o banco de dados criado nos módulos anteriores, realize as seguintes instruções:
+-- Altere o endereço do aluno JOSÉ para 'Av. Brasil 778';
+UPDATE aluno
+SET endereco = 'Av. Brasil 778'
+WHERE aluno = 'José';
+
+-- Altere o e-mail do aluno CRIS para 'cristiano@softblue.com.br';
+UPDATE aluno
+SET email = 'cristiano@softblue.com.br'
+WHERE aluno = 'Cris';
+
+-- Aumente em 10% o valor dos cursos abaixo de 300;
+set sql_safe_updates = 0; -- desabilita safe update -- alterar mais de 1 registro
+set sql_safe_updates = 1; -- reabilita safe update
+
+UPDATE curso
+SET valor = valor *1.1
+WHERE valor < 300;
+
+-- cregistro ficou com varios 0 apos virgula
+alter table curso change column valor valor double (10,2); -- alterando para deixar 2 casas após virgula
+-- update curso set valor = round(valor *1.1, 2); -- 10% de aumento arredondando com 2 casas após virgula
+
+-- Altere o nome do curso de Php Básico para Php Fundamentos;
+UPDATE curso
+SET curso = 'Php Fundamentos'
+WHERE curso = 'php Básico';
