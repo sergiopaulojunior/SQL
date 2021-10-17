@@ -1,0 +1,51 @@
+-- CAP 7 - CONTROLE DE ACESSO, DCL
+
+-- USUARIO
+-- POSSUI ACESSO AO SERVIDOR
+-- POSSUI ACESSO AO BANCO
+-- POSSUI ACESSO A TABELA
+-- POSSUI ACESSO A COLUNA
+-- POSSUI ACESSO AO REGISTRO
+-- POSSUI ACESSO A OPERAÇÃO
+-- DADO
+
+-- CREATE USER ..
+-- DROP USER ..
+-- GRANT - GARANTE ACESSO
+-- REVOKE - REMOVE ACESSO
+
+-- GRANT acao ON estrutura TO usuario
+-- REVOKE acao ON estrutura TO usuario
+
+-- ACOES -- all, selet, insert, update, delete
+-- ESTRUTURAS -- table, view, sequence
+
+-- nao necessita conectar no banco
+-- ---------------------------------------------------------------------
+-- CRIANDO USUARIO
+-- CREATE USER 'NOME'@'LOCALDEACESSO' IDENTIFIED BY 'SENHA'
+-- CREATE USER 'sergio'@'endereçoip' IDENTIFIED BY 'Sjguga2015'
+-- CREATE USER 'sergio'@'%' IDENTIFIED BY 'Sjguga2015' -- % acessa de qualquer local
+
+CREATE USER 'sergio'@'localhost' IDENTIFIED BY 'Sjguga2015';
+DROP USER 'sergio'@'localhost'; -- EXCLUI FUNCIONARIO
+
+-- GARANTE ACESSO TOTAL AO BANCO SOFTBLUE EXECUTANDO DA MAQUINA LOCAL
+GRANT ALL ON softblue.* TO 'sergio'@'localhost';
+
+-- USUARIO FOI VIAJAR MESMO NOME, OUTRA SENHA
+-- GARANTE ACESSO APENAS AO SELECT, BANCO SOFTBLUE EXECUTANDO DE QUALQUER IP
+CREATE USER 'sergio'@'%' IDENTIFIED BY 'SenhaViagem';
+-- CONCEDER ACESSO A TODAS NECESSARIO REMOVER DE TODAS
+GRANT SELECT ON softblue.* TO 'sergio'@'%'; -- BANCO TODO
+GRANT INSERT ON softblue.curso TO 'sergio'@'%'; -- TABELA ESPECIFICA
+
+REVOKE INSERT ON softblue.curso FROM 'sergio'@'%'; -- REMOVE ACESSO
+
+-- CRIAR NOVA CONEXÃO E PREENCHER OS DADOS
+
+SELECT user FROM mysql.user; -- LISTA USUARIOS
+
+SHOW GRANTS FOR 'sergio'@'localhost'; -- VERIFICA ACESSOS
+
+
