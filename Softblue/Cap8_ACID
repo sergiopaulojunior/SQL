@@ -1,0 +1,62 @@
+-- TRANSAÇOES ACID - DTL
+
+-- Atomicidade - tranfere tudo ou nada
+-- Consitencia - regras impostas não podem ser quebradas
+-- Isolamento - transaçoes podem alterar dados no banco, trava dados durante alteração
+-- Durabilidade - transaçoes devem ser confirmadas
+
+-- START TRANSACTION - inicia transação
+-- COMMIT - finaliza com sucesso
+-- ROLLBACK - anula transação
+
+use curso_sql;
+
+show engines; -- verifica quais metodos dao suporte a transações
+
+create table contas_bancarias(
+	id int unsigned not null auto_increment,
+    titular varchar(45) not null,
+    saldo double not null,
+    primary key(id)
+) engine = InnoDB; -- cria tabela para transações
+
+insert into contas_bancarias(titular, saldo) values ('Sergio', 1000);
+insert into contas_bancarias(titular, saldo) values ('Ana', 2000);
+
+select * from contas_bancarias;
+
+start transaction; -- inicia transação
+update contas_bancarias set saldo = saldo - 100 where id = 1; -- congela tabela para todos usuarios
+update contas_bancarias set saldo = saldo + 100 where id = 2;
+rollback; -- cancela
+
+start transaction; -- inicia transação
+update contas_bancarias set saldo = saldo - 100 where id = 1;
+update contas_bancarias set saldo = saldo + 100 where id = 2;
+commit; -- confirma
+
+-- Exercício 1
+-- Baseado na tabela, construa uma transação que atualiza o valor aplicado em cada conta bancária baseado no índice de correção percentual de 3%, garantindo que a instrução de UPDATE seja realizada na tabela toda, com as propriedades ACID.
+CREATE TABLE CONTA_BANCARIA
+(
+CODIGO INTEGER UNSIGNED NOT NULL AUTO_INCREMENT, -- Código interno (PK)
+TITULAR VARCHAR(32) NOT NULL, -- Nome do titular da conta
+SALDO DOUBLE NOT NULL, -- Representa o saldo da conta
+PRIMARY KEY(CODIGO) -- Define o campo CODIGO como PK (Primary Key)
+);
+
+INSERT INTO CONTA_BANCARIA VALUES (1, 'André', 213);
+INSERT INTO CONTA_BANCARIA VALUES (2, 'Diogo', 489);
+INSERT INTO CONTA_BANCARIA VALUES (3, 'Rafael', 568);
+INSERT INTO CONTA_BANCARIA VALUES (4, 'Carlos', 712);
+INSERT INTO CONTA_BANCARIA VALUES (5, 'Peter', -38);
+
+select * from conta_bancaria;
+
+start transaction; -- inicia transação
+update conta_bancaria set saldo = saldo + (saldo / 100 * 3) where saldo > 0;
+rollback; -- cancela
+commit; -- confirma
+
+set sql_safe_updates = 0; -- desabilita safe update
+set sql_safe_updates = 1; -- reabilita safe update
